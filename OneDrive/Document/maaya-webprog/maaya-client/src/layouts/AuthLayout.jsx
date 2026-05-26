@@ -15,11 +15,13 @@ const AuthLayout = ({
     <div className="min-h-[calc(100vh-5rem)] bg-zinc-100 px-4 py-10 sm:px-6 lg:px-8">
       <section className="mx-auto grid max-w-6xl overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm lg:grid-cols-[1fr_0.9fr]">
         <div className="flex flex-col justify-center px-5 py-8 sm:px-8 lg:px-10">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-            {eyebrow}
-          </p>
+          {eyebrow && (
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+              {eyebrow}
+            </p>
+          )}
 
-          <h1 className="mt-3 max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+          <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
             {title}
           </h1>
 

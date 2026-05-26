@@ -20,7 +20,7 @@ const NavBar = () => {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-zinc-300 bg-white shadow-sm">
       <div className="mx-auto flex min-h-20 max-w-6xl w-full flex-col justify-center gap-3 px-4 py-3 sm:px-6 md:flex-row md:items-center md:justify-between md:py-0 lg:px-8">
         
-        {/* ✅ LOGO */}
+      
         <NavLink
           to="/"
           className="flex items-center gap-2 hover:opacity-80 transition"
@@ -35,7 +35,7 @@ const NavBar = () => {
           </span>
         </NavLink>
 
-        {/* ✅ NAV LINKS */}
+       
         <nav className="flex w-full items-center gap-2 overflow-x-auto pb-1 md:w-auto md:overflow-visible md:pb-0">
           {links.map((link) => (
             <NavLink

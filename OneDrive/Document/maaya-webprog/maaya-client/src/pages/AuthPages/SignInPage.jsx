@@ -4,7 +4,6 @@ import Button from '../../components/Button';
 const SignInPage = () => {
   return (
     <AuthLayout
-      eyebrow="Lab Activity 4"
       title="Welcome back to your positive space"
       description="Sign in to continue exploring encouragement, wellness stories, and practical reminders made for better daily habits."
       image="/signin-community.jpg"

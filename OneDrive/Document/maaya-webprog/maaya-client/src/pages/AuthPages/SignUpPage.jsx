@@ -4,7 +4,6 @@ import Button from '../../components/Button';
 const SignUpPage = () => {
   return (
     <AuthLayout
-      eyebrow="Lab Activity 4"
       title="Create your Smiley Haven account"
       description="Join the community and keep your favorite positivity articles, wellness notes, and daily inspiration in one friendly place."
       image="/wellness.jpg"
