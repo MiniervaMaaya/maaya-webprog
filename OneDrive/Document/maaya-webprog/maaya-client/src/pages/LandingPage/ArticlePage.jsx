@@ -1,5 +1,5 @@
-import Button from '../components/Button';
-import articles from '../assets/Article-content';
+import Button from '../../components/Button';
+import articles from '../../assets/article-content';
 
 const ArticlePage = () => {
   return (
