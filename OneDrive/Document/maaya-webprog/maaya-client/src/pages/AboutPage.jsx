@@ -4,11 +4,10 @@ const AboutPage = () => {
   return (
     <div className="flex w-full flex-col gap-6">
 
-      {/* ✅ HERO / ABOUT SECTION */}
+
       <section className="border-y border-zinc-300 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
 
-          {/* ✅ IMAGE */}
           <div className="rounded-3xl overflow-hidden shadow-lg">
             <img
               src="/about.jpg"
@@ -43,7 +42,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* ✅ STATS SECTION */}
       <section className="border-y border-zinc-300 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6">
           <p className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">
@@ -69,7 +67,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* ✅ CONTENT + IMAGE GRID */}
+   
       <section className="border-y border-zinc-300 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
 
@@ -96,8 +94,7 @@ const AboutPage = () => {
               </p>
             </div>
           </div>
-
-          {/* ✅ IMAGE GRID */}
+          
           <div className="grid grid-cols-2 gap-4">
             <img src="/about1.jpg" className="rounded-xl object-cover h-40 w-full" />
             <img src="/about2.jpg" className="rounded-xl object-cover h-40 w-full" />

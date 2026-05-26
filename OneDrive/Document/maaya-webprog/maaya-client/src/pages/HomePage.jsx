@@ -4,7 +4,7 @@ const HomePage = () => {
   return (
     <div className="flex w-full flex-col gap-6">
 
-      {/* ✅ HERO SECTION */}
+    
       <section className="border-y border-zinc-300 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           
@@ -31,7 +31,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* ✅ HERO IMAGE */}
+     
           <div className="rounded-3xl overflow-hidden shadow-lg">
             <img
               src="/people.jpg"
@@ -43,7 +43,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ✅ KPI SECTION */}
+     
       <section className="border-y border-zinc-300 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">

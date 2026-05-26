@@ -1,10 +1,11 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import './assets/styles/index.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import './assets/styles/index.css';
 
 import Layout from "./components/Layout";
-import ArticlePage from './pages/ArticlePage'; 
+import ArticlePage from './pages/ArticlePage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import NotFoundPage from "./pages/NotFoundPage";
 
 const routes = [
   {
@@ -12,7 +13,7 @@ const routes = [
     element: <Layout />,
     children: [
       {
-        path:'',
+        path: '',
         element: <HomePage />,
       },
       {
@@ -21,7 +22,12 @@ const routes = [
       },
       {
         path: 'articles',
-        element: <ArticlePage />,   
+        element: <ArticlePage />,
+      },
+
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
@@ -30,12 +36,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-  <>
-  <RouterProvider router={router} />
-  </>
-
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
