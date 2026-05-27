@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
@@ -32,6 +32,8 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { DataGrid } from "@mui/x-data-grid";
 import usersSeed from "../../assets/users.json?raw";
+import { createUser, fetchUsers, updateUser } from "../../services/UserService";
+import { getCurrentUser, isEditor } from "../../utils/auth";
 
 const roles = ["admin", "editor", "viewer"];
 const genders = ["male", "female", "other"];
@@ -106,6 +108,21 @@ const UsersPage = () => {
     gender: "all",
     status: "all",
   });
+  const currentUser = getCurrentUser();
+
+  useEffect(() => {
+    let mounted = true;
+
+    fetchUsers().then((data) => {
+      if (mounted) {
+        setUsers(data);
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const resetForm = () => {
     setForm({ ...blankForm });
@@ -194,7 +211,7 @@ const UsersPage = () => {
     return nextErrors;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const nextErrors = validate();
 
@@ -217,25 +234,33 @@ const UsersPage = () => {
       isActive: form.isActive,
     };
 
+    const savedUser = modal.id
+      ? await updateUser(modal.id, nextUser)
+      : await createUser(nextUser);
+
     setUsers((prev) =>
       modal.id
-        ? prev.map((user) => (user.id === modal.id ? { ...user, ...nextUser } : user))
-        : [
-            ...prev,
-            {
-              id: prev.reduce((max, user) => Math.max(max, Number(user.id) || 0), 0) + 1,
-              ...nextUser,
-            },
-          ]
+        ? prev.map((user) =>
+            user.id === modal.id ? { ...user, ...savedUser } : user
+          )
+        : [...prev, savedUser]
     );
 
     closeModal();
   };
 
-  const toggleStatus = (id) => {
+  const toggleStatus = async (id) => {
+    const targetUser = users.find((user) => user.id === id);
+    if (!targetUser) return;
+
+    const updatedUser = await updateUser(id, {
+      ...targetUser,
+      isActive: !targetUser.isActive,
+    });
+
     setUsers((prev) =>
       prev.map((user) =>
-        user.id === id ? { ...user, isActive: !user.isActive } : user
+        user.id === id ? { ...user, ...updatedUser } : user
       )
     );
   };
@@ -341,6 +366,15 @@ const UsersPage = () => {
       ),
     },
   ];
+
+  if (isEditor()) {
+    return (
+      <Alert severity="warning">
+        Editors cannot access the Users page. You are signed in as{" "}
+        {currentUser.firstName || "an editor"}.
+      </Alert>
+    );
+  }
 
   return (
     <Box sx={{ width: "100%", minWidth: 0 }}>

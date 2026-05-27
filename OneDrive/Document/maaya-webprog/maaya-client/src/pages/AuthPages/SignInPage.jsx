@@ -1,7 +1,38 @@
-import AuthLayout from '../../layouts/AuthLayout';
-import Button from '../../components/Button';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthLayout from "../../layouts/AuthLayout";
+import Button from "../../components/Button";
+import { loginUser } from "../../services/UserService";
 
 const SignInPage = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const data = await loginUser({ email, password });
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("firstName", data.firstName);
+      localStorage.setItem("type", data.type);
+
+      navigate("/dashboard", {
+        state: { firstName: data.firstName, type: data.type },
+      });
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Login failed.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <AuthLayout
       title="Welcome back to your positive space"
@@ -12,13 +43,22 @@ const SignInPage = () => {
       footerAction="Create Account"
       footerTo="/signup"
     >
-      <form className="grid gap-5">
+      <form className="grid gap-5" onSubmit={handleLogin}>
+        {error && (
+          <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+            {error}
+          </p>
+        )}
+
         <label className="grid gap-2 text-sm font-semibold text-zinc-800">
           Email address
           <input
             type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             placeholder="you@example.com"
             className="h-12 rounded-lg border border-zinc-300 bg-white px-4 text-sm font-normal text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-4 focus:ring-zinc-200"
+            required
           />
         </label>
 
@@ -26,8 +66,11 @@ const SignInPage = () => {
           Password
           <input
             type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="Enter your password"
             className="h-12 rounded-lg border border-zinc-300 bg-white px-4 text-sm font-normal text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-4 focus:ring-zinc-200"
+            required
           />
         </label>
 
@@ -45,7 +88,7 @@ const SignInPage = () => {
         </div>
 
         <Button type="submit" variant="primary" className="h-12 w-full">
-          Sign In
+          {isSubmitting ? "Signing In..." : "Sign In"}
         </Button>
       </form>
     </AuthLayout>

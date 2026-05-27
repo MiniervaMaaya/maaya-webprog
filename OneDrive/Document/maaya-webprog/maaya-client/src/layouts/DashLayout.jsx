@@ -22,8 +22,10 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import ArticleIcon from "@mui/icons-material/Article";
 import Button from "@mui/material/Button";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { clearCurrentUser, getCurrentUser, isEditor } from "../utils/auth";
 
 const expandedDrawerWidth = 272;
 
@@ -39,6 +41,12 @@ const dashboardNavItems = [
     title: "Reports",
     to: "/dashboard/reports",
     icon: <AssessmentIcon />,
+  },
+  {
+    label: "Articles",
+    title: "Articles",
+    to: "/dashboard/articles",
+    icon: <ArticleIcon />,
   },
   {
     label: "Users",
@@ -165,6 +173,10 @@ const DashLayout = () => {
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
   const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+  const visibleNavItems = isEditor()
+    ? dashboardNavItems.filter((item) => item.to !== "/dashboard/users")
+    : dashboardNavItems;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -175,6 +187,7 @@ const DashLayout = () => {
   };
 
   const handleLogout = () => {
+    clearCurrentUser();
     navigate("/");
   };
 
@@ -240,7 +253,9 @@ const DashLayout = () => {
                 Smiley Haven
               </Typography>
               <Typography variant="caption" sx={{ color: "#9ca3af" }}>
-                Dashboard
+                {currentUser.firstName
+                  ? `${currentUser.firstName} - ${currentUser.type}`
+                  : "Dashboard"}
               </Typography>
             </Box>
           )}
@@ -261,7 +276,7 @@ const DashLayout = () => {
             p: 1.5,
           }}
         >
-          {dashboardNavItems.map(({ label, to, icon }) => (
+          {visibleNavItems.map(({ label, to, icon }) => (
             <ListItem key={to} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 component={Link}
